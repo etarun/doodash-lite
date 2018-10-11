@@ -53,8 +53,24 @@
         android:gravity="right|center_vertical"
         android:textSize="12sp"
         android:textAlignment="gravity"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         tools:layout_editor_absoluteY="16dp" />
+
+    <Button
+        android:id="@+id/tv_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="right|center_vertical"
+        android:text="like"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_distance"
+        tools:layout_editor_absoluteY="11dp" />
 
 </android.support.constraint.ConstraintLayout>

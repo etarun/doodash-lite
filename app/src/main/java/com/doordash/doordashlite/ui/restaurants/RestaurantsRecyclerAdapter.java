@@ -1,11 +1,13 @@
 package com.doordash.doordashlite.ui.restaurants;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
     private Fragment fragment;
     private RestaurantsContract.Presenter presenter;
     private List<Restaurant> restaurants;
+    private SharedPreferences sharedPreferences;
 
     private final OnItemClickListener listener;
 
@@ -45,6 +48,8 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
         TextView tvMoreInfo;
         @BindView(R.id.iv_Res_Icon)
         ImageView ivRestaurantIcon;
+        @BindView(R.id.tv_button)
+        Button button;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +61,7 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
     public RestaurantsRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+        sharedPreferences = context.getSharedPreferences("doordashLite", Context.MODE_PRIVATE);
 
         View view = inflater.inflate(R.layout.item_restaurant, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -63,6 +69,7 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
         viewHolder.tvMoreInfo = view.findViewById(R.id.tv_more_info);
         viewHolder.tvDistance = view.findViewById(R.id.tv_distance);
         viewHolder.ivRestaurantIcon = view.findViewById(R.id.iv_Res_Icon);
+        viewHolder.button = view.findViewById(R.id.tv_button);
 
         view.setOnClickListener(v -> listener.onItemClick(restaurants.get(viewHolder.getAdapterPosition())));
         return viewHolder;
@@ -73,6 +80,7 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
 
         Restaurant restaurant = restaurants.get(position);
 
+
         viewHolder.tvRestaurantName.setText(restaurant.getName());
         viewHolder.tvMoreInfo.setText(restaurant.getDescription());
         viewHolder.tvDistance.setText(restaurant.getStatus());
@@ -80,7 +88,29 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
         Glide.with(fragment).load(restaurant.getImageURL()).placeholder(
                 R.drawable.drawable_placeholder).error(
                 R.drawable.drawable_placeholder).into(viewHolder.ivRestaurantIcon);
-
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int s = sharedPreferences.getInt(restaurant.getName(),-1);
+        if(s == restaurant.getRestaurantId()) {
+            viewHolder.button.setText("Liked");
+        }else {
+            viewHolder.button.setText("Like");
+        }
+        viewHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int s = sharedPreferences.getInt(restaurant.getName(),-1);
+                if(s == restaurant.getRestaurantId()){
+                    editor.remove(restaurant.getName());
+                    editor.apply();
+                    viewHolder.button.setText("Like");
+                }else {
+                    viewHolder.button.setText("Liked");
+                    editor.putInt(restaurant.getName(), restaurant.getRestaurantId());
+                    editor.apply();
+                }
+                //editor.commit();
+            }
+        });
 
     }
 
