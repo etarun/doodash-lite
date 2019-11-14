@@ -2,4 +2,7 @@
     <string name="app_name">DoorDashLite</string>
     <string name="offline_mode_msg">Internet UnAvailable</string>
     <string name="toolbar_title">Discover</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -30,4 +30,13 @@ public class Repository {
 
         return observable;
     }
+
+    public Observable<TokenResponse> getTokenData(String username, String password) {
+
+        Observable<TokenResponse> observable;
+
+        observable = remoteDataSource.getTokenData(username, password);
+
+        return observable;
+    }
 }

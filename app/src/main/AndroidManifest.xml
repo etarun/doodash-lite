@@ -22,5 +22,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.restaurantDetails.RestaurantDetailActivity" />
+        <activity android:name=".loginActivityComponent.LoginActivity" />
     </application>
 </manifest>

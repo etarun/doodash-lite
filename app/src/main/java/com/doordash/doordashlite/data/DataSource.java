@@ -42,4 +42,9 @@ public class DataSource {
     }
 
 
+    public Observable<TokenResponse> getTokenData(String username, String password) {
+
+        LoginData loginData = new LoginData(username, password);
+        return apiInterface.getTokenData(loginData);
+    }
 }
